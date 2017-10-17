@@ -1,0 +1,4 @@
+*.retry
+_temp/
+Group02_project-openrc.sh
+*.pem
