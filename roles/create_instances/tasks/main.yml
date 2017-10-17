@@ -7,7 +7,7 @@
         image: "{{ item.image }}"
         flavor: "{{ item.flavor }}"
         security_groups:
-                  - ssh
+          - ssh
       with_items: "{{ servers }}"
       register: "os_hosts"
 
