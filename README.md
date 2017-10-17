@@ -26,6 +26,15 @@ sudo nano /etc/ansible/ansible.cfg
 # Uncomment 'host_key_checking = False'
 ```
 
+Use [dynamic inventory](http://docs.ansible.com/ansible/latest/intro_dynamic_inventory.html#example-openstack-external-inventory-script)
+
+```bash
+wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/openstack.py
+chmod +x openstack.py
+source openstack.rc
+./openstack.py --list
+```
+
 ## Workflow
 
 ...

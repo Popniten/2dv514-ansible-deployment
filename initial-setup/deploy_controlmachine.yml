@@ -58,3 +58,9 @@
       apt: name=docker-engine update_cache=yes
 
     - service: name=docker state=restarted
+
+    - name: Ensure git repo exists.
+      git:
+        repo: https://github.com/Popniten/2dv514-ansible-deployment.git
+        dest: /home/ubuntu/playbooks
+      owner: ubuntu
