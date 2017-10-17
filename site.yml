@@ -1,8 +1,8 @@
 ----
- - name: create instances
-   hosts: localhost
-   roles:
-     - create_instances
+- name: create instances
+  hosts: localhost
+  roles:
+    - create_instances
 
 - name: Provision nodes
   hosts: os_hosts
