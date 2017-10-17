@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  name: Deploy swarm
+  task:
+  - name: Deploy manager machine
+        os_server:
+          state: present
+          name: recipeManager
+          image: Ubuntu server 16.04
+          key_name: 2dv514-g2-key
+          wait: yes
+          flavor: cpu1-ram1024-disk10
+          auto_floating_ip: yes
+          network: Acme_LAN
+          security_groups:
+            - default
+            - ssh
+          meta:
+            hostname: recipeManager.localdomain
+          register: recipeManager
