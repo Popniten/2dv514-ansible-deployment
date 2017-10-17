@@ -2,7 +2,7 @@
  - name: create instances
    hosts: localhost
    roles:
-     - { role: create_instances }
+     - create_instances
 
 - name: Provision nodes
   hosts: os_hosts
