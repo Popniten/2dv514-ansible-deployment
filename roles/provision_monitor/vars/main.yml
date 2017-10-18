@@ -1,0 +1,7 @@
+---
+# vars file for nginx
+homeDir: /home/ubuntu
+appDir: app
+repo: monitor
+account: fredriko83
+#branch: monitor

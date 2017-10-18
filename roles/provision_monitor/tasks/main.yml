@@ -1,14 +1,5 @@
 --- 
 # tasks file for nodejs
-  vars:
-    - homeDir: /home/ubuntu
-    - appDir: app
-    - repo: monitor
-    - account: fredriko83
-    - branch: monitor
-    #- privateKey: /Users/milos/.ssh/id_rsa
-
-  tasks:
   - name: Install Packages
     apt: 
       name={{ item }}
