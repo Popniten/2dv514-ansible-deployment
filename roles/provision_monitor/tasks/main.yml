@@ -1,0 +1,11 @@
+---
+# tasks file for pm2
+- name: Install pm2
+  apt:
+    pkg: pm2
+    state: installed
+    update_cache: true
+  # notify:
+  #   - Start PM2
+
+

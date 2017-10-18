@@ -30,10 +30,10 @@
 
 # - debug: msg="monitor={{monitor}}"
 
-- name: Add IP address of all hosts to all hosts
-  lineinfile:
-    owner: ubuntu
-    group: ubuntu
-    dest: /etc/ansible/hosts
-    line: "monitor ansible_host={{ monitor.server.private_v4 }}"
-    state: present
+# - name: Add IP address of all hosts to all hosts
+#   lineinfile:
+#     owner: ubuntu
+#     group: ubuntu
+#     dest: /etc/ansible/hosts
+#     line: "monitor ansible_host={{ monitor.server.private_v4 }}"
+#     state: present
