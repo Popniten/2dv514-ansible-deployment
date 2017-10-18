@@ -25,7 +25,8 @@
 
   - name: Git Clone Repo
     git: 
-      repo=git@github.com:{{account}}/{{repo}}.git dest={{homeDir}}/{{appDir}} update=yes force=yes
+      repo=https://github.com/{{account}}/{{repo}}.git
+      dest={{homeDir}}/{{appDir}}
       #version={{branch}}
     register: git_finished
 
