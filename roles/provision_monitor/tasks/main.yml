@@ -1,12 +1,5 @@
----
-tasks file for nodejs
-# - name: Install pm2
-#   apt:
-#     pkg: pm2
-#     state: installed
-#     update_cache: false
-  # notify:
-  #   - Start PM2
+--- 
+# tasks file for nodejs
 
   - name: Install Packages
     apt: name={{ item }} update_cache=yes state=latest
