@@ -46,3 +46,6 @@
     command: pm2 start index.js --name monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
     when: npm_finished.changed
+
+  - name: stop nginx service 
+    service: name=nginx state=stopped 
