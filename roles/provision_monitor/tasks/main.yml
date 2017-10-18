@@ -10,8 +10,8 @@
       - npm
       - nodejs-legacy
       - git
-      - mcrypt
-      - nginx
+      #- mcrypt
+      #- nginx
       - curl
 
   - name: Install pm2
