@@ -10,9 +10,7 @@
 
   - name: Install Packages
     apt: 
-      name={{ item }}
-      update_cache=yes
-      state=latest
+      name={{ item }} update_cache=yes state=latest
     with_items:
       - build-essential
       - npm
@@ -33,10 +31,7 @@
 
   - name: Git Clone Repo
     git: 
-      repo=git@github.com:{{account}}/{{repo}}.git 
-      dest={{homeDir}}/{{appDir}}
-      update=yes
-      force=yes
+      repo=git@github.com:{{account}}/{{repo}}.git dest={{homeDir}}/{{appDir}} update=yes force=yes
       #version={{branch}}
     register: git_finished
 
