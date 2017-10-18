@@ -1,8 +1,18 @@
 --- 
 # tasks file for nodejs
+  vars:
+    - homeDir: /home/ubuntu
+    - appDir: app
+    - repo: monitor
+    - account: fredriko83
+    - branch: monitor
+    #- privateKey: /Users/milos/.ssh/id_rsa
 
   - name: Install Packages
-    apt: name={{ item }} update_cache=yes state=latest
+    apt: 
+      name={{ item }}
+      update_cache=yes
+      state=latest
     with_items:
       - build-essential
       - npm
@@ -14,3 +24,35 @@
 
   - name: Install pm2
     npm: name=pm2 global=yes production=yes
+
+  - name: Create APP Directory
+    file: path={{homeDir}}/{{appDir}} state=directory
+
+  - name: Copy Private Key
+    copy: src={{privateKey}} dest={{homeDir}} mode=0600
+
+  - name: Git Clone Repo
+    git: 
+      repo=git@github.com:{{account}}/{{repo}}.git 
+      dest={{homeDir}}/{{appDir}}
+      update=yes
+      force=yes
+      #version={{branch}}
+    register: git_finished
+
+  - name: Running NPM install
+    npm: 
+      path={{homeDir}}/{{appDir}}
+    register: npm_finished
+    when: git_finished.changed
+
+  - name: Stop APP
+    sudo_user: ubuntu
+    command: pm2 stop monitor chdir={{homeDir}}/{{appDir}}
+    ignore_errors: yes
+
+  - name: Start APP
+    sudo_user: ubuntu
+    command: pm2 start index.js --name monitor chdir={{homeDir}}/{{appDir}}
+    ignore_errors: yes
+    when: npm_finished.changed
