@@ -1,0 +1,39 @@
+---
+- name: Deploy monitor machine
+  os_server:
+    state: present
+    name: monitor
+    image: Ubuntu server 16.04
+    key_name: 2dv514-g2-key
+    wait: yes
+    flavor: cpu1-ram1024-disk10
+    network: Acme_LAN
+    security_groups:
+      - default
+      - ssh
+      - http
+    meta:
+      hostname: monitor.localdomain
+  register: monitor
+
+# - debug: msg="hostvars={{hostvars}}"
+
+- name: Add VM to inventory
+  add_host:
+    name: monitor
+    hostname: "{{monitor.server.private_v4}}"
+    ansible_host: "{{monitor.server.private_v4}}"
+
+- name: Wait for SSH to be ready
+  pause:
+    seconds: 60
+
+# - debug: msg="monitor={{monitor}}"
+
+- name: Add IP address of all hosts to all hosts
+  lineinfile:
+    owner: ubuntu
+    group: ubuntu
+    dest: /etc/ansible/hosts
+    line: "monitor ansible_host={{ webclient.server.private_v4 }}"
+    state: present
