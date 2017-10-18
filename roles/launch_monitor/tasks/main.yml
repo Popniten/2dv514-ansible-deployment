@@ -35,5 +35,5 @@
     owner: ubuntu
     group: ubuntu
     dest: /etc/ansible/hosts
-    line: "monitor ansible_host={{ webclient.server.private_v4 }}"
+    line: "monitor ansible_host={{ monitor.server.private_v4 }}"
     state: present
