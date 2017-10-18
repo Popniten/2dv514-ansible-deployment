@@ -8,9 +8,12 @@
     - branch: monitor
     #- privateKey: /Users/milos/.ssh/id_rsa
 
+  tasks:
   - name: Install Packages
     apt: 
-      name={{ item }} update_cache=yes state=latest
+      name={{ item }}
+      update_cache=yes
+      state=latest
     with_items:
       - build-essential
       - npm
@@ -21,7 +24,10 @@
       - curl
 
   - name: Install pm2
-    npm: name=pm2 global=yes production=yes
+    npm: 
+      name=pm2
+      global=yes
+      production=yes
 
   - name: Create APP Directory
     file: path={{homeDir}}/{{appDir}} state=directory
