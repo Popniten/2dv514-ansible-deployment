@@ -4,7 +4,7 @@
   apt:
     pkg: pm2
     state: installed
-    update_cache: true
+    update_cache: false
   # notify:
   #   - Start PM2
 

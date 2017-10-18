@@ -20,10 +20,10 @@
       - python-simplejson
       - python-pip
 
-# - name: Provision monitor
-#   hosts: monitor
-#   user: ubuntu
-#   become: true
-#   gather_facts: false
-#   roles:
-#     - provision_monitor
+- name: Provision monitor
+  hosts: monitor
+  user: ubuntu
+  become: true
+  gather_facts: false
+  roles:
+    - provision_monitor
