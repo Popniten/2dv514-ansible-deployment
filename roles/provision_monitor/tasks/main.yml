@@ -1,11 +1,23 @@
 ---
-# tasks file for pm2
-- name: Install pm2
-  apt:
-    pkg: pm2
-    state: installed
-    update_cache: false
+tasks file for nodejs
+# - name: Install pm2
+#   apt:
+#     pkg: pm2
+#     state: installed
+#     update_cache: false
   # notify:
   #   - Start PM2
 
+  - name: Install Packages
+    apt: name={{ item }} update_cache=yes state=latest
+    with_items:
+      - build-essential
+      - npm
+      - nodejs-legacy
+      - git
+      - mcrypt
+      - nginx
+      - curl
 
+  - name: Install pm2
+    npm: name=pm2 global=yes production=yes
