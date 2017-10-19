@@ -1,16 +1,15 @@
 --- 
-# tasks file for nodejs
-  
+# tasks file for nodejs  
 
   - name: Get script
     get_url:
       url: "http://deb.nodesource.com/setup_6.x"
       dest: "{{homeDir}}/nodejs.sh"
 
-  # - name: Set execution right to script
-  #   file:
-  #     path: "{{homeDir}}/nodejs.sh”
-  #     mode: "u+x"
+  - name: Set execution right to script
+    file:
+      path: "{{homeDir}}/nodejs.sh"
+      mode: "u+x"
 
   - name: Execute installation script
     shell: "{{homeDir}}/nodejs.sh"        
@@ -41,7 +40,6 @@
     git: 
       repo=https://github.com/{{account}}/{{repo}}.git
       dest={{homeDir}}/{{appDir}}
-      #version={{branch}}
     register: git_finished
 
   - name: Running NPM install
