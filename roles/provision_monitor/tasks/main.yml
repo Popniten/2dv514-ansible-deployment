@@ -58,8 +58,8 @@
     command: pm2 start index.js --name monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
     environment:
-      MAIL_USER:{{mail}}
-      MAIL_SMTP:{{mailsmtp}}
-      MAIL_PASSWORD:{{mailpass}}
-      DB_URI:{{db}}
+      MAIL_USER: {{mail}}
+      MAIL_SMTP: {{mailsmtp}}
+      MAIL_PASSWORD: {{mailpass}}
+      DB_URI: {{db}}
     when: npm_finished.changed
