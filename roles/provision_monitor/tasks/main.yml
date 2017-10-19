@@ -78,6 +78,7 @@
       state: present
 
   - name: reload .profile
+    become: yes
     command: . ~/.profile chdir={{homeDir}}
     ignore_errors: yes
 
