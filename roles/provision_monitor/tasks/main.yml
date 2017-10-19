@@ -48,6 +48,13 @@
     register: npm_finished
     when: git_finished.changed
 
+  - name: Set env variables
+      environment:
+        MAIL_USER={{mail}}
+        MAIL_SMTP={{mailsmtp}}
+        MAIL_PASSWORD={{mailpass}}
+        DB_URI={{db}}
+
   - name: Stop APP
     sudo_user: ubuntu
     command: pm2 stop monitor chdir={{homeDir}}/{{appDir}}
