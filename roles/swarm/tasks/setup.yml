@@ -55,6 +55,14 @@
       when: "'active' not in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
+- hosts: testgroup
+  connection: local
+  gather_facts: false
+  tasks:
+    - debug: var=group_names
+    - debug: msg="{{ inventory_hostname }}"
+    - debug: var=hostvars[inventory_hostname]
+    
 # when the swarm_manager_operational group is empty, meaning there
 # are no hosts running swarm, we need to initialize one of the hosts
 # then add it to the swarm_manager_operational group
