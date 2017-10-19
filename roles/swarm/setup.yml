@@ -69,6 +69,8 @@
   become: true
   vars:
     token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"
+  - debug:
+    msg: "The join token is: {{ token }}"  
   tasks:
     - name: join manager nodes to cluster
       shell: >
