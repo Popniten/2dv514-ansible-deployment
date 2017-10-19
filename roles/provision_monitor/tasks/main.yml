@@ -14,8 +14,6 @@
   - name: Execute installation script
     shell: "{{homeDir}}/nodejs.sh"        
 
-
-
   - name: Install Packages
     apt: 
       name={{ item }}
@@ -78,6 +76,8 @@
       state: present
 
   - name: reload .profile
+    become: yes
+    become_user: ubuntu
     command: . .profile chdir={{homeDir}}
     ignore_errors: yes
 
