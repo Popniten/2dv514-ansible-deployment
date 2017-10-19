@@ -1,0 +1,92 @@
+--- 
+# tasks file for nodejs  
+
+  - name: Get script
+    get_url:
+      url: "http://deb.nodesource.com/setup_6.x"
+      dest: "{{homeDir}}/nodejs.sh"
+
+  - name: Set execution right to script
+    file:
+      path: "{{homeDir}}/nodejs.sh"
+      mode: "u+x"
+
+  - name: Execute installation script
+    shell: "{{homeDir}}/nodejs.sh"        
+
+  - name: Install Packages
+    apt: 
+      name={{ item }}
+      update_cache=yes
+      state=latest
+    with_items:
+      - build-essential
+      - nodejs
+      - git
+      - curl
+
+  - name: Install pm2
+    npm: 
+      name=pm2
+      global=yes
+      production=yes    
+
+  - name: Git Clone Repo
+    git: 
+      repo=https://github.com/{{account}}/{{repo}}.git
+      dest={{homeDir}}/{{appDir}}
+    register: git_finished
+
+  - name: Running NPM install
+    npm: 
+      path={{homeDir}}/{{appDir}}
+    register: npm_finished
+    when: git_finished.changed
+
+  - name: Add IP address of all hosts to all hosts
+    lineinfile:
+      owner: ubuntu
+      group: ubuntu
+      dest: /home/ubuntu/.profile
+      line: "export MAIL_USER={{mail}}"
+      state: present
+
+  - name: Add IP address of all hosts to all hosts
+    lineinfile:
+      owner: ubuntu
+      group: ubuntu
+      dest: /home/ubuntu/.profile
+      line: "export MAIL_SMTP={{mailsmtp}}"
+      state: present
+
+  - name: Add IP address of all hosts to all hosts
+    lineinfile:
+      owner: ubuntu
+      group: ubuntu
+      dest: /home/ubuntu/.profile
+      line: "export MAIL_PASSWORD={{mailpass}}"
+      state: present
+
+  - name: Add IP address of all hosts to all hosts
+    lineinfile:
+      owner: ubuntu
+      group: ubuntu
+      dest: /home/ubuntu/.profile
+      line: "export DB_URI={{db}}"
+      state: present
+
+  - name: reload .profile
+    become_user: ubuntu
+    raw: . ~/.profile
+    ignore_errors: yes
+
+  - name: Stop monitor
+    become_user: ubuntu
+    command: pm2 stop monitor chdir={{homeDir}}/{{appDir}}
+    ignore_errors: yes
+
+  - name: Start monitor
+    become_user: ubuntu
+    command: pm2 start index.js --name monitor chdir={{homeDir}}/{{appDir}}
+    ignore_errors: yes
+    when: npm_finished.changed
