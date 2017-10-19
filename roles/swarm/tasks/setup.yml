@@ -1,3 +1,8 @@
+---
+# determine the status of each manager node and break them
+# into two groups:
+#   - swarm_manager_operational (swarm is running and active)
+#   - swarm_manager_bootstrap (host needs to be joined to the cluster)
 - hosts: manager
   become: true
   tasks:
@@ -11,7 +16,7 @@
         hostname: "{{ item }}"
         groups: swarm_manager_operational
       with_items: "{{ play_hosts }}"
-      when: "'active' in swarm_status.stdout_lines"
+      when: "'active' in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
     - name: create swarm_manager_bootstrap group
@@ -19,9 +24,13 @@
         hostname: "{{ item }}"
         groups: swarm_manager_bootstrap
       with_items: "{{ play_hosts }}"
-      when: "'active' not in swarm_status.stdout_lines"
+      when: "'active' not in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
+# determine the status of each worker node and break them
+# into two groups:
+#   - swarm_worker_operational (host is joined to the swarm cluster)
+#   - swarm_worker_bootstrap (host needs to be joined to the cluster)
 - hosts: worker
   become: true
   tasks:
@@ -35,7 +44,7 @@
         hostname: "{{ item }}"
         groups: swarm_worker_operational
       with_items: "{{ play_hosts }}"
-      when: "'active' in swarm_status.stdout_lines"
+      when: "'active' in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
     - name: create swarm_worker_bootstrap group
@@ -43,25 +52,39 @@
         hostname: "{{ item }}"
         groups: swarm_worker_bootstrap
       with_items: "{{ play_hosts }}"
-      when: "'active' not in swarm_status.stdout_lines"
+      when: "'active' not in hostvars[item].swarm_status.stdout_lines"
       run_once: true
 
+- hosts: testgroup
+  connection: local
+  gather_facts: false
+  tasks:
+    - debug: var=group_names
+    - debug: msg="{{ inventory_hostname }}"
+    - debug: var=hostvars[inventory_hostname]
+    
+# when the swarm_manager_operational group is empty, meaning there
+# are no hosts running swarm, we need to initialize one of the hosts
+# then add it to the swarm_manager_operational group
 - hosts: swarm_manager_bootstrap[0]
   become: true
   tasks:
     - name: initialize swarm cluster
       shell: >
         docker swarm init
-        --advertise-addr={{ swarm_iface | default('eth0') }}:2377
+        --advertise-addr={{ swarm_iface }}:2377
       when: "'swarm_manager_operational' not in groups"
       register: bootstrap_first_node
 
     - name: add initialized host to swarm_manager_operational group
       add_host:
-        hostname: "{{ play_hosts[0] }}"
+        hostname: "{{ item }}"
         groups: swarm_manager_operational
+      with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
       when: bootstrap_first_node | changed
 
+# retrieve the swarm tokens and populate a list of ips listening on
+# the swarm port 2377      
 - hosts: swarm_manager_operational[0]
   become: true
   vars:
@@ -81,10 +104,11 @@
         groups: swarm_manager_ips
       with_items: "{{ play_hosts }}"
 
+# join the manager hosts not yet initialized to the swarm cluster
 - hosts: swarm_manager_bootstrap:!swarm_manager_operational
   become: true
   vars:
-    token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"
+    token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"  
   tasks:
     - name: join manager nodes to cluster
       shell: >
@@ -93,6 +117,7 @@
         --token={{ token }}
         {{ groups['swarm_manager_ips'][0] }}:2377
 
+# join the worker hosts not yet initialized to the swarm cluster
 - hosts: swarm_worker_bootstrap
   become: true
   vars:
