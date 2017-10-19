@@ -81,10 +81,12 @@
     ignore_errors: yes
 
   - name: Stop monitor
+    become_user: ubuntu
     command: pm2 stop monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
 
   - name: Start monitor
+    become_user: ubuntu
     command: pm2 start index.js --name monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
     when: npm_finished.changed
