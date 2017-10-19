@@ -31,10 +31,10 @@
 
 # - debug: msg="webclient={{webclient}}"
 
-- name: Add IP address of all hosts to all hosts
-  lineinfile:
-    owner: ubuntu
-    group: ubuntu
-    dest: /etc/ansible/hosts
-    line: "webclient ansible_host={{ webclient.server.private_v4 }}"
-    state: present
+# - name: Add IP address of all hosts to all hosts
+#   lineinfile:
+#     owner: ubuntu
+#     group: ubuntu
+#     dest: /etc/ansible/hosts
+#     line: "webclient ansible_host={{ webclient.server.private_v4 }}"
+#     state: present
