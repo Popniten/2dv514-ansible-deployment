@@ -65,12 +65,13 @@
         groups: swarm_manager_ips
       with_items: "{{ play_hosts }}"
 
+- debug:
+    msg: "The Docker join token is {{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"
+
 - hosts: swarm_manager_bootstrap:!swarm_manager_operational
   become: true
   vars:
-    token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"
-  debug:
-    msg: "The join token is: {{ token }}"  
+    token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"  
   tasks:
     - name: join manager nodes to cluster
       shell: >
