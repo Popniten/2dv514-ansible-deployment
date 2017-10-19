@@ -65,20 +65,17 @@
         groups: swarm_manager_ips
       with_items: "{{ play_hosts }}"
 
-- debug:
-    msg: "The Docker join token is {{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"
-
-- hosts: swarm_manager_bootstrap:!swarm_manager_operational
-  become: true
-  vars:
-    token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"  
-  tasks:
-    - name: join manager nodes to cluster
-      shell: >
-        docker swarm join
-        --advertise-addr={{ swarm_iface | default('eth0') }}:2377
-        --token={{ token }}
-        {{ groups['swarm_manager_ips'][0] }}:2377
+#- hosts: swarm_manager_bootstrap:!swarm_manager_operational
+#  become: true
+#  vars:
+#    token: "{{ hostvars[groups['swarm_manager_operational'][0]]['swarm_manager_token']['stdout'] }}"  
+#  tasks:
+#    - name: join manager nodes to cluster
+#      shell: >
+#        docker swarm join
+#        --advertise-addr={{ swarm_iface | default('eth0') }}:2377
+#        --token={{ token }}
+#        {{ groups['swarm_manager_ips'][0] }}:2377
 
 - hosts: swarm_worker_bootstrap
   become: true
