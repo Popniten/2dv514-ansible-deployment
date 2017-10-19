@@ -64,7 +64,7 @@
     - name: initialize swarm cluster
       shell: >
         docker swarm init
-        --advertise-addr={{ swarm_iface }}:2377
+        --advertise-addr=194.47.164.54:2377
       register: bootstrap_first_node
 
 # retrieve the swarm tokens and populate a list of ips listening on
@@ -72,7 +72,7 @@
 - hosts: manager[0]
   become: true
   vars:
-    iface: "{{ swarm_iface }}"
+    iface: 194.47.164.54
   tasks:
     - name: retrieve swarm manager token
       shell: docker swarm join-token -q manager
