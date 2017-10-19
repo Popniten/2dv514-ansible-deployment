@@ -41,6 +41,20 @@
     port_range_max: 8080
     remote_ip_prefix: 0.0.0.0/0
 
+- name: Create swarm security group
+  os_security_group:
+    state: present
+    name: swarm
+    description: swarm Security Group
+
+- name: Update swarm rule
+  os_security_group_rule:
+    security_group: swarm
+    protocol: tcp
+    port_range_min: 2377
+    port_range_max: 2377
+    remote_ip_prefix: 0.0.0.0/0
+
 - name: Create local area network
   os_network:
     name: "{{ companyname }}_LAN"
