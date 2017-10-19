@@ -15,7 +15,7 @@
   when: docker_swarm_network is defined and docker_swarm_network | ipaddr('net')
 
 - name: Check if "Swarm Mode" is enabled.
-  shell: docker info
+  shell: sudo docker info
   changed_when: False
   register: docker_info
   tags:
