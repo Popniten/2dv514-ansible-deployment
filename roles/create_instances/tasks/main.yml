@@ -8,6 +8,7 @@
         flavor: "{{ item.flavor }}"
         security_groups:
           - ssh
+          - swarm
       with_items: "{{ servers }}"
       register: "os_hosts"
 
