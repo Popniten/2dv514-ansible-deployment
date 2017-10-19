@@ -10,9 +10,6 @@
   user: ubuntu
   become: true
   gather_facts: false
-  vars:
-    source_key: /home/popniten/LNU/config-2dv514/Grupp02-examination-ht17/vault/2dv514-temp
-    dest_key: /home/ubuntu/.ssh/2dv514-temp
   tasks:
     - name: install python 2
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
