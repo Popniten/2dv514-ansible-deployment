@@ -1,5 +1,22 @@
 --- 
 # tasks file for nodejs
+  
+
+  - name: Node.js | Get script
+    get_url:
+    url: "http://deb.nodesource.com/setup_6.x"
+    dest: "{{homeDir}}/nodejs.sh"
+
+  - name: Node.js | Set execution right to script
+    file:
+      path: "{{ temp_folder }}/nodejs.sh”
+      mode: "u+x"
+
+  - name: Node.js | Execute installation script
+    shell: "{{ temp_folder }}/nodejs.sh"        
+
+
+
   - name: Install Packages
     apt: 
       name={{ item }}
@@ -7,18 +24,15 @@
       state=latest
     with_items:
       - build-essential
-      - npm
-      - nodejs-legacy
+      - nodejs
       - git
-      #- mcrypt
-      #- nginx
       - curl
 
   - name: Install pm2
     npm: 
       name=pm2
       global=yes
-      production=yes
+      production=yes    
 
   - name: Create APP Directory
     file: path={{homeDir}}/{{appDir}} state=directory
