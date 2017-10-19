@@ -82,11 +82,25 @@
 
   - name: Stop monitor
     become_user: ubuntu
-    command: pm2 stop monitor chdir={{homeDir}}/{{appDir}}
+    command: pm2 delete monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
 
   - name: Start monitor
     become_user: ubuntu
-    command: pm2 start index.js --name monitor chdir={{homeDir}}/{{appDir}}
+    command: pm2 start -x -i 1 index.js --name monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
     when: npm_finished.changed
+
+#      - name: delete existing pm2 processes if running
+#    command: "pm2 delete {{ server_id }}"
+#    ignore_errors: True
+#    become: yes
+#    become_user: rw_user
+
+
+#  - name: start pm2 process
+#    command: 'pm2 start -x -i 4 --name "{{server_id}}" server.js'
+#    become: yes
+#    become_user: rw_user
+#    environment:
+#     NODE_ENV: "{{server_env}}"
