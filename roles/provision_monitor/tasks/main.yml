@@ -76,9 +76,8 @@
       state: present
 
   - name: reload .profile
-    become: yes
     become_user: ubuntu
-    command: . .profile chdir={{homeDir}}
+    raw: . ~/.profile
     ignore_errors: yes
 
   - name: Stop monitor
