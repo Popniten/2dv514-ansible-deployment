@@ -12,6 +12,7 @@
       - default
       - ssh
       - http
+      - monitor
     meta:
       hostname: monitor.localdomain
   register: monitor
