@@ -5,3 +5,7 @@
   become: true
   roles:
     - atosato
+
+- name: Deploy service
+  hosts: docker_swarm_manager
+  shell: docker service create andrasballa/recipeapi_web
