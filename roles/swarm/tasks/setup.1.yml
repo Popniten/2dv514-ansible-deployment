@@ -1,6 +1,7 @@
 ---
 
 - name: Create a custom swarm network
+  hosts: docker_engine
   docker_network:
     name: docker_gwbridge
     driver_options:
@@ -15,6 +16,7 @@
   when: docker_swarm_network is defined and docker_swarm_network | ipaddr('net')
 
 - name: Check if "Swarm Mode" is enabled.
+  hosts: docker_engine
   shell: docker info
   changed_when: False
   register: docker_info
@@ -22,6 +24,7 @@
     - skip_ansible_lint # Suppressing the linter
 
 - name: Init "Swarm Mode" on the first manager.
+  hosts: docker_engine
   shell: docker swarm init
         --listen-addr {{ docker_swarm_addr }}:{{ docker_swarm_port }}
         --advertise-addr {{ docker_swarm_addr }}
@@ -31,6 +34,7 @@
     - skip_ansible_lint # Suppressing the linter
 
 - name: Get the worker join-token.
+  hosts: docker_engine
   shell: docker swarm join-token -q worker
   changed_when: False
   register: docker_worker_token
@@ -41,6 +45,7 @@
     - skip_ansible_lint # Suppressing the linter
 
 - name: Get the manager join-token.
+  hosts: docker_engine
   shell: docker swarm join-token -q manager
   changed_when: False
   register: docker_manager_token
@@ -52,16 +57,19 @@
     - skip_ansible_lint # Suppressing the linter
 
 - name: Declare the address of the first Swarm manager as a fact.
+  hosts: docker_engine
   set_fact:
     docker_manager_address: "{{ docker_swarm_addr }}:{{ docker_swarm_port }}"
   when: "inventory_hostname == groups['docker_swarm_manager'][0]"
 
 - name: Distribute the fact containing address of the first Swarm manager.
+  hosts: docker_engine
   set_fact:
     docker_manager_address: "{{hostvars[groups['docker_swarm_manager'][0]]['docker_manager_address'] }}"
   when: "inventory_hostname != groups['docker_swarm_manager'][0]"
 
 - name: Join the pending Swarm worker nodes.
+  hosts: docker_engine
   shell: docker swarm join
         --listen-addr {{ docker_swarm_addr }}:{{ docker_swarm_port }}
         --advertise-addr {{ docker_swarm_addr }}
@@ -75,6 +83,7 @@
     - skip_ansible_lint # Suppressing the linter
 
 - name: Join the pending Swarm manager nodes.
+  hosts: docker_engine
   shell: docker swarm join
         --listen-addr {{ docker_swarm_addr }}:{{ docker_swarm_port }}
         --advertise-addr {{ docker_swarm_addr }}
@@ -89,6 +98,7 @@
     - skip_ansible_lint # Suppressing the linter
 
 - name: Get list of labels
+  hosts: docker_engine
   command: >-
          docker inspect
          --format {% raw %}'{{range $key, $value := .Spec.Labels}}{{printf "%s\n" $key}}{{end}}'{% endraw %}
@@ -102,6 +112,7 @@
     - swarm_labels
 
 - name: Remove labels from swarm node
+  hosts: docker_engine
   command: docker node update --label-rm {{ item }} {{ ansible_hostname }}
   with_items: "{{ docker_swarm_labels.stdout_lines }}"
   when: "{{ docker_swarm_labels.stdout_lines | count > 0 }}"
@@ -113,6 +124,7 @@
     - swarm_labels
 
 - name: Asign labels to swarm nodes | if any
+  hosts: docker_engine
   command: docker node update --label-add {{ item }}=true {{ ansible_hostname }}
   changed_when: False
   with_items:
