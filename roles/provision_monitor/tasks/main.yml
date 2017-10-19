@@ -2,17 +2,17 @@
 # tasks file for nodejs
   
 
-  - name: Node.js | Get script
+  - name: Get script
     get_url:
-    url: "http://deb.nodesource.com/setup_6.x"
-    dest: "{{homeDir}}/nodejs.sh"
+      url: "http://deb.nodesource.com/setup_6.x"
+      dest: "{{homeDir}}/nodejs.sh"
 
-  - name: Node.js | Set execution right to script
-    file:
-      path: "{{homeDir}}/nodejs.sh”
-      mode: "u+x"
+  # - name: Set execution right to script
+  #   file:
+  #     path: "{{homeDir}}/nodejs.sh”
+  #     mode: "u+x"
 
-  - name: Node.js | Execute installation script
+  - name: Execute installation script
     shell: "{{homeDir}}/nodejs.sh"        
 
 
