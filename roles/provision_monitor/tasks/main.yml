@@ -43,38 +43,47 @@
     register: npm_finished
     when: git_finished.changed
 
-  - name: Add IP address of all hosts to all hosts
+  - name: ensure file exists
+    copy:
+      content: ""
+      dest: "{{homeDir}}/{{appDir}}/.env"
+      force: no
+      group: root
+      owner: root
+      mode: 0555
+
+  - name: Add mail to .env
     lineinfile:
-      owner: ubuntu
-      group: ubuntu
-      dest: /home/ubuntu/.profile
-      line: "export MAIL_USER={{mail}}"
+      owner: root
+      group: root
+      dest: /home/ubuntu/app/.env
+      line: "MAIL_USER={{mail}}"
       state: present
 
-  - name: Add IP address of all hosts to all hosts
+  - name: Add smtp to .env
     lineinfile:
-      owner: ubuntu
-      group: ubuntu
-      dest: /home/ubuntu/.profile
-      line: "export MAIL_SMTP={{mailsmtp}}"
+      owner: root
+      group: root
+      dest: /home/ubuntu/app/.env
+      line: "MAIL_SMTP={{mailsmtp}}"
       state: present
 
-  - name: Add IP address of all hosts to all hosts
+  - name: Add mail pass to .env
     lineinfile:
-      owner: ubuntu
-      group: ubuntu
-      dest: /home/ubuntu/.profile
-      line: "export MAIL_PASSWORD={{mailpass}}"
+      owner: root
+      group: root
+      dest: /home/ubuntu/app/.env
+      line: "MAIL_PASSWORD={{mailpass}}"
       state: present
 
-  - name: Add IP address of all hosts to all hosts
+  - name: Add uri to .env
     lineinfile:
-      owner: ubuntu
-      group: ubuntu
-      dest: /home/ubuntu/.profile
-      line: "export DB_URI={{db}}"
+      owner: root
+      group: root
+      dest: /home/ubuntu/app/.env
+      line: "DB_URI={{db}}"
       state: present
-
+  
   - name: reload .profile
       become_user: ubuntu
       shell: . ~/.profile
