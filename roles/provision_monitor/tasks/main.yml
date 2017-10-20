@@ -76,17 +76,23 @@
       state: present
 
   - name: reload .profile
+      become_user: ubuntu
+      shell: . ~/.profile
+    # ignore_errors: yes
+
+  - name: set ownership
     become_user: ubuntu
-    raw: . ~/.profile
-    ignore_errors: yes
+    become: true
+    shell: chown -R ubuntu app chdir={{homeDir}}
+   # ignore_errors: yes
 
   - name: Stop monitor
     become_user: ubuntu
-    command: pm2 delete monitor chdir={{homeDir}}/{{appDir}}
+    shell: pm2 delete monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
 
   - name: Start monitor
     become_user: ubuntu
-    command: pm2 start -x -i 1 index.js --name monitor chdir={{homeDir}}/{{appDir}}
+    shell: pm2 start -x -i 1 index.js --name monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
-    when: npm_finished.changed
+   # when: npm_finished.changed
