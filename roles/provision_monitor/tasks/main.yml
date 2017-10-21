@@ -89,11 +89,17 @@
       shell: . ~/.profile
     # ignore_errors: yes
 
-  - name: set ownership
-    become_user: ubuntu
-    become: true
-    shell: chown -R ubuntu app chdir={{homeDir}}
-   # ignore_errors: yes
+  #- name: set ownership
+  #  command: chown -R ubuntu app chdir={{homeDir}}
+
+  - name: Fix 'app' permissions
+    file:
+      path={{homeDir}}/{{appDir}}
+      owner=ubuntu
+      group=ubuntu
+      mode=0775
+      state=directory
+      recurse=yes
 
   - name: Stop monitor
     become_user: ubuntu
