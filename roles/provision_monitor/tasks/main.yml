@@ -83,14 +83,6 @@
       dest: /home/ubuntu/app/.env
       line: "DB_URI={{db}}"
       state: present
-  
-  - name: reload .profile
-      become_user: ubuntu
-      shell: . ~/.profile
-    # ignore_errors: yes
-
-  #- name: set ownership
-  #  command: chown -R ubuntu app chdir={{homeDir}}
 
   - name: Fix 'app' permissions
     file:
@@ -110,4 +102,3 @@
     become_user: ubuntu
     shell: pm2 start -x -i 1 index.js --name monitor chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
-   # when: npm_finished.changed
