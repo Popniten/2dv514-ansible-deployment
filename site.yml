@@ -43,6 +43,6 @@
       #shell: mkdir api
       copy:
         src: api/
-        dest: 'home/ubuntu/api'
+        dest: '/home/ubuntu/api'
         owner: ubuntu
         group: ubuntu    
