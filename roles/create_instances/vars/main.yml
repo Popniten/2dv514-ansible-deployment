@@ -3,31 +3,37 @@ prefix: recipe
 servers:
   - name: manager
     image: Ubuntu server 16.04
-    flavor: cpu1-ram1024-disk10
+    flavor: cpu2-ram4096-disk10
     key: 2dv514-g2-key
     meta:
       group: manager
   - name: worker
     image: Ubuntu server 16.04
-    flavor: cpu1-ram1024-disk10
+    flavor: cpu2-ram4096-disk10
     key: 2dv514-g2-key
     meta:
       group: worker
   - name: worker2
     image: Ubuntu server 16.04
-    flavor: cpu1-ram1024-disk10
+    flavor: cpu2-ram4096-disk10
     key: 2dv514-g2-key
     meta:
       group: worker
   - name: worker3
     image: Ubuntu server 16.04
-    flavor: cpu1-ram1024-disk10
+    flavor: cpu2-ram4096-disk10
     key: 2dv514-g2-key
     meta:
       group: worker
   - name: worker4
     image: Ubuntu server 16.04
-    flavor: cpu1-ram1024-disk10
+    flavor: cpu2-ram4096-disk10
     key: 2dv514-g2-key
     meta:
-      group: worker        
+      group: worker  
+  - name: worker5
+    image: Ubuntu server 16.04
+    flavor: cpu2-ram4096-disk10
+    key: 2dv514-g2-key
+    meta:
+      group: worker            
