@@ -1,13 +1,12 @@
 version: "3"
-
 services:
-    web:
-        image: "fredriko83/beerapi"
+    beers:
+        image: fredriko83/beerapi
         ports:
             - "8000:80"
         depends_on:
-            - db
-    db:
+            - beers_db
+    beers_db:
         image: "microsoft/mssql-server-linux:2017-latest"
         environment:
             SA_PASSWORD: "Supersecret1234"
