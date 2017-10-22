@@ -123,14 +123,14 @@
     - skip_ansible_lint
     - swarm_labels
 
-#- name: Deploy service
-#  shell: sudo docker service create --name recipe --publish 8080:8080 andrasballa/recipeapi_web
-#  when: "inventory_hostname == groups['docker_swarm_manager'][0]"
-#  tags:
-#    - skip_ansible_lint # Suppressing the linter    
-
 - name: Deploy service
-  shell: docker stack deploy --compose-file /home/ubuntu/api/recipe/docker-compose.yml recipeapi
+  shell: sudo docker service create --name recipe --publish 8080:8080 andrasballa/recipeapi_web
   when: "inventory_hostname == groups['docker_swarm_manager'][0]"
   tags:
     - skip_ansible_lint # Suppressing the linter    
+
+#- name: Deploy service
+#  shell: docker stack deploy --compose-file /home/ubuntu/api/recipe/docker-compose.yml recipeapi
+#  when: "inventory_hostname == groups['docker_swarm_manager'][0]"
+#  tags:
+#    - skip_ansible_lint # Suppressing the linter    
