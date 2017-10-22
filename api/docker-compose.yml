@@ -1,0 +1,76 @@
+version: '3'
+volumes:
+  dbdata:
+networks:
+  recipes:
+  backend:
+  beers_network:
+
+services: 
+  api:
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    command: npm run dev
+    depends_on:
+      - servicedb
+    links:
+      - web
+    networks:
+      - recipes
+      - backend
+      - beers_network
+  beers:
+    image: fredriko83/beerapi
+    ports: 
+      - "8000:80"
+    depends_on:
+      - beers_db
+    networks: 
+      - beers_network
+
+  beers_db:
+    image: microsoft/mssql-server-linux:2017-latest
+    environment: 
+      SA_PASSWORD: "Supersecret1234"
+      ACCEPT_EULA: "Y"
+    networks: 
+      - beers_network 
+
+  servicedb:
+    image: mongo
+    ports: 
+      - "27017:27017"
+    networks:
+      - backend
+    volumes:
+      - /data/db
+  
+  web:
+    image: andrasballa/recipeapi_web
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks: 
+      - recipes
+  db:
+    image: mysql:5.7
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./database:/tmp/database
+    command: mysqld --init-file="/tmp/database/schema.sql"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=2DV514
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=secret
+    ports:
+      - "3306:3306"
+    networks:
+      - recipes
