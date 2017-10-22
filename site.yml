@@ -38,3 +38,11 @@
       apt: name=docker-engine update_cache=yes
 
     - service: name=docker state=restarted
+    
+    - name: Copy docker-compose
+      shell: mkdir api
+       copy:
+        src: api/
+        dest: '/api'
+        owner: ubuntu
+        group: ubuntu    
