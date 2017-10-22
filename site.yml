@@ -41,7 +41,7 @@
     
     - name: Copy docker-compose
       shell: mkdir api
-       copy:
+      copy:
         src: api/
         dest: '/api'
         owner: ubuntu
