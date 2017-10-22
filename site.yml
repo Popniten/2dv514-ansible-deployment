@@ -40,7 +40,6 @@
     - service: name=docker state=restarted
     
     - name: Copy docker-compose
-      #shell: mkdir api
       copy:
         src: api/
         dest: '/home/ubuntu/api'
