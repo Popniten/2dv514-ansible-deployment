@@ -1,6 +1,6 @@
-swarm-01 ansible_ssh_host=192.168.20.54
-swarm-02 ansible_ssh_host=192.168.20.61
-swarm-03 ansible_ssh_host=192.168.20.55
+swarm-01 ansible_ssh_host=194.47.164.57
+swarm-02 ansible_ssh_host=194.47.164.54
+swarm-03 ansible_ssh_host=194.47.164.34
 
 [docker_engine]
 swarm-01
