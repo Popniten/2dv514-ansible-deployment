@@ -2,4 +2,4 @@
 # Architecture global variables
 companyname: AcmeCorp
 externalnetwork: internetlan
-network_pool: 192.168.20
+network_pool: 192.168.30
