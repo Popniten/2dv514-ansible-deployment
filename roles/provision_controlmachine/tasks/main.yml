@@ -1,0 +1,49 @@
+---
+- name: Install python 2
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Adding Ansible repository
+  apt_repository: repo="ppa:ansible/ansible"
+
+- name: Install Ansible and support packages
+  apt: name={{item}} state=present
+  with_items:
+  - python-pip
+  - python-software-properties
+  - ansible
+  - gcc
+  - python-dev
+  - libffi-dev
+  - libssl-dev
+  - sqlite3
+  - libsqlite3-dev
+  - git
+
+- name: Install OpenStack client
+  pip:
+    name: python-openstackclient
+
+- name: Install Shade
+  pip:
+    name: shade
+
+- name: Ensure repository key is installed
+  apt_key:
+    id: "58118E89F3A912897C070ADBF76221572C52609D"
+    keyserver: "hkp://p80.pool.sks-keyservers.net:80"
+    state: present
+
+- name: Ensure docker registry is available
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
+
+- name: Ensure docker and dependencies are installed
+  apt: name=docker-engine update_cache=yes
+
+- service: name=docker state=restarted
+
+- name: Ensure git repo exists.
+  git:
+    repo: https://github.com/Popniten/2dv514-ansible-deployment.git
+    dest: /home/ubuntu/2dv514-project
+    version: simple-services
+  owner: ubuntu

@@ -3,3 +3,5 @@
 companyname: AcmeCorp
 externalnetwork: internetlan
 network_pool: 192.168.30
+default_flavor: cpu2-ram4096-disk10
+keyname: 2dv514-g2-key

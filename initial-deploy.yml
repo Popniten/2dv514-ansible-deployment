@@ -1,0 +1,20 @@
+---
+- name: Setup router and LAN
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - network
+
+- name: "Deploy controlmachine on AcmeCorp network"
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_controlmachine
+
+- name: "Provision controlmachine on AcmeCorp network"
+  hosts: acme_controller
+  user: ubuntu
+  become: true
+  gather_facts: false
+  roles:
+    - provision_controlmachine
