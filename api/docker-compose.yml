@@ -1,6 +1,7 @@
 version: '3'
 volumes:
   dbdata:
+  mssql-server-linux-data:
 networks:
   recipes:
   backend:
@@ -8,7 +9,8 @@ networks:
 
 services: 
   api:
-    build: .
+    # build: . 
+    image: wallstedt/api-aggregator:latest
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -23,8 +25,9 @@ services:
       - recipes
       - backend
       - beers_network
+  
   beers:
-    image: fredriko83/beerapi
+    image: fredriko83/beerapi:latest
     ports: 
       - "8000:80"
     depends_on:
@@ -38,7 +41,9 @@ services:
       SA_PASSWORD: "Supersecret1234"
       ACCEPT_EULA: "Y"
     networks: 
-      - beers_network 
+      - beers_network
+    volumes:
+      - mssql-server-linux-data:/var/opt/mssql/data
 
   servicedb:
     image: mongo
@@ -51,7 +56,7 @@ services:
   
   web:
     image: andrasballa/recipeapi_web
-    build: .
+    # build: .
     ports:
       - "8080:8080"
     depends_on:
@@ -62,7 +67,7 @@ services:
     image: mysql:5.7
     volumes:
       - dbdata:/var/lib/mysql
-      - ./database:/tmp/database
+      - user/ubuntu/api/recipe/database:/tmp/database
     command: mysqld --init-file="/tmp/database/schema.sql"
     restart: always
     environment:
