@@ -1,7 +1,0 @@
----
-
-- name: "Provision a Docker Swarm cluster"
-  hosts: docker_engine
-  become: true
-  roles:
-    - atosato

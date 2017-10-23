@@ -1,5 +1,0 @@
----
-# vars file for nginx
-domain: yourdomain.se
-ssl_key: /path/to/your.key
-ssl_crt: /path/to/your.crt

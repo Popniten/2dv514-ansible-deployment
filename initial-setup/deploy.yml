@@ -1,3 +1,0 @@
----
-- import_playbook: deploy_network.yml
-- import_playbook: deploy_controlmachine.yml

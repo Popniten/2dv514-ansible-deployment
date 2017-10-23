@@ -1,0 +1,9 @@
+---
+- name: Testing stuff
+  gather_facts: false
+  hosts: localhost
+  tasks:
+    - debug:
+        msg:
+          - "Company name = {{ companyname }}"
+          - "External network = {{ externalnetwork }}"
