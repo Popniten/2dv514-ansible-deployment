@@ -14,7 +14,7 @@ services:
     image: mysql:5.7
     volumes:
       - dbdata:/var/lib/mysql
-      - ./database:/tmp/database
+      - /home/ubuntu/api/database:/tmp/database
     command: mysqld --init-file="/tmp/database/schema.sql"
     restart: always
     environment:
