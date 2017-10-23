@@ -130,7 +130,7 @@
 #    - skip_ansible_lint # Suppressing the linter    
 
 - name: Deploy service
-  shell: docker stack deploy --compose-file /home/ubuntu/api/recipe/docker-compose.yml
+  shell: docker stack deploy --compose-file /home/ubuntu/api/recipe/docker-compose.yml recipeapi
   when: "inventory_hostname == groups['docker_swarm_manager'][0]"
   tags:
     - skip_ansible_lint # Suppressing the linter 
