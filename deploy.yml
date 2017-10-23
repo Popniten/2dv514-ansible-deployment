@@ -1,9 +1,6 @@
 ---
-- name: Testing stuff
-  gather_facts: false
+- name: Setup router and LAN
   hosts: localhost
-  tasks:
-    - debug:
-        msg:
-          - "Company name = {{ companyname }}"
-          - "External network = {{ externalnetwork }}"
+  gather_facts: false
+  roles:
+    - network
