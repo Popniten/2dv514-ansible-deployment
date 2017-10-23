@@ -1,0 +1,27 @@
+---
+- name: Deploy service-b
+  os_server:
+    state: present
+    name: acme_service-b
+    image: Ubuntu server 16.04
+    key_name: "{{ keyname }}"
+    wait: yes
+    flavor: "{{ default_flavor }}"
+    auto_floating_ip: no
+    network: "{{ companyname }}_LAN"
+    security_groups:
+      - ssh
+      - webservice
+    meta:
+      hostname: acme_service-b.localdomain
+  register: acme_service-b
+
+- name: Add VM to inventory
+  add_host:
+    name: acme_service-b
+    hostname: "{{acme_service-b.server.public_v4}}"
+    ansible_host: "{{acme_service-b.server.public_v4}}"
+
+- name: Wait for SSH to be ready
+  pause:
+    seconds: 60

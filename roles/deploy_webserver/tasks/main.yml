@@ -1,0 +1,27 @@
+---
+- name: Deploy webserver
+  os_server:
+    state: present
+    name: acme_webserver
+    image: Ubuntu server 16.04
+    key_name: "{{ keyname }}"
+    wait: yes
+    flavor: "{{ default_flavor }}"
+    auto_floating_ip: yes
+    network: "{{ companyname }}_LAN"
+    security_groups:
+      - ssh
+      - webservice
+    meta:
+      hostname: acme_webserver.localdomain
+  register: acme_webserver
+
+- name: Add VM to inventory
+  add_host:
+    name: acme_webserver
+    hostname: "{{acme_webserver.server.public_v4}}"
+    ansible_host: "{{acme_webserver.server.public_v4}}"
+
+- name: Wait for SSH to be ready
+  pause:
+    seconds: 60

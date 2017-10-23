@@ -1,0 +1,30 @@
+---
+- name: Deploy monitor
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_monitor
+
+- name: Deploy webserver
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_webserver
+
+- name: Deploy api-gateway
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_api-gateway
+
+- name: Deploy service-a
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_service-a
+
+- name: Deploy service-b
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_service-b
