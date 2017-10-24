@@ -22,5 +22,5 @@
     ansible_host: "{{acme_controller.server.public_v4}}"
 
 - name: Wait for SSH to be ready
-    pause:
-    seconds: 60
+  pause:
+  seconds: 60
