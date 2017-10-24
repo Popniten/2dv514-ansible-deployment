@@ -1,4 +1,16 @@
 [localhost]
 127.0.0.1
 
-[localhost:vars]
+[acme_monitor]
+
+[acme_webserver]
+
+[acme_apigateway]
+
+[acme_service_a]
+
+[acme_service_b]
+
+[acme_database_a]
+
+[acme_database_b]
