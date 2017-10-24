@@ -1,8 +1,8 @@
 ---
-- name: Deploy database-a
+- name: Deploy database_b
   os_server:
     state: present
-    name: acme_database-a
+    name: acme_database_b
     image: Ubuntu server 16.04
     key_name: "{{ keyname }}"
     wait: yes
@@ -12,11 +12,11 @@
     security_groups:
       - ssh
     meta:
-      hostname: acme_database-a.localdomain
-  register: acme_database-a
+      hostname: acme_database_b.localdomain
+  register: acme_database_b
 
 - name: Add VM to inventory
   add_host:
-    name: acme_database-a
-    hostname: "{{acme_database-a.server.public_v4}}"
-    ansible_host: "{{acme_database-a.server.public_v4}}"
+    name: acme_database_b
+    hostname: "{{acme_database_b.server.public_v4}}"
+    ansible_host: "{{acme_database_b.server.public_v4}}"

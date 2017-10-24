@@ -17,26 +17,26 @@
   roles:
     - deploy_apigateway
 
-- name: Deploy service-a
+- name: Deploy service_a
   hosts: localhost
   gather_facts: false
   roles:
-    - deploy_service-a
+    - deploy_service_a
 
-- name: Deploy service-b
+- name: Deploy service_b
   hosts: localhost
   gather_facts: false
   roles:
-    - deploy_service-b
+    - deploy_service_b
 
-- name: Deploy database-b
+- name: Deploy database_b
   hosts: localhost
   gather_facts: false
   roles:
-    - deploy_database-b
+    - deploy_database_b
 
-- name: Deploy database-b
+- name: Deploy database_b
   hosts: localhost
   gather_facts: false
   roles:
-    - deploy_database-b
+    - deploy_database_b

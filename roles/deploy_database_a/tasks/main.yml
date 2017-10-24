@@ -1,8 +1,8 @@
 ---
-- name: Deploy service-a
+- name: Deploy database_a
   os_server:
     state: present
-    name: acme_service-a
+    name: acme_database_a
     image: Ubuntu server 16.04
     key_name: "{{ keyname }}"
     wait: yes
@@ -11,13 +11,12 @@
     network: "{{ companyname }}_LAN"
     security_groups:
       - ssh
-      - webservice
     meta:
-      hostname: acme_service-a.localdomain
-  register: acme_service-a
+      hostname: acme_database_a.localdomain
+  register: acme_database_a
 
 - name: Add VM to inventory
   add_host:
-    name: acme_service-a
-    hostname: "{{acme_service-a.server.public_v4}}"
-    ansible_host: "{{acme_service-a.server.public_v4}}"
+    name: acme_database_a
+    hostname: "{{acme_database_a.server.public_v4}}"
+    ansible_host: "{{acme_database_a.server.public_v4}}"

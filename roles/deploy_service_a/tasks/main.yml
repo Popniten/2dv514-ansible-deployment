@@ -1,8 +1,8 @@
 ---
-- name: Deploy service-b
+- name: Deploy service_a
   os_server:
     state: present
-    name: acme_service-b
+    name: acme_service_a
     image: Ubuntu server 16.04
     key_name: "{{ keyname }}"
     wait: yes
@@ -13,11 +13,11 @@
       - ssh
       - webservice
     meta:
-      hostname: acme_service-b.localdomain
-  register: acme_service-b
+      hostname: acme_service_a.localdomain
+  register: acme_service_a
 
 - name: Add VM to inventory
   add_host:
-    name: acme_service-b
-    hostname: "{{acme_service-b.server.public_v4}}"
-    ansible_host: "{{acme_service-b.server.public_v4}}"
+    name: acme_service_a
+    hostname: "{{acme_service_a.server.public_v4}}"
+    ansible_host: "{{acme_service_a.server.public_v4}}"
