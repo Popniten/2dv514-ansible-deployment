@@ -15,7 +15,7 @@
   hosts: localhost
   gather_facts: false
   roles:
-    - deploy_api-gateway
+    - deploy_apigateway
 
 - name: Deploy service-a
   hosts: localhost

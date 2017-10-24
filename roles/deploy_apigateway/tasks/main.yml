@@ -1,8 +1,8 @@
 ---
-- name: Deploy api-gateway
+- name: Deploy apigateway
   os_server:
     state: present
-    name: acme_api-gateway
+    name: acme_apigateway
     image: Ubuntu server 16.04
     key_name: "{{ keyname }}"
     wait: yes
@@ -13,12 +13,12 @@
       - ssh
       - webservice
     meta:
-      hostname: acme_api-gateway.localdomain
-  register: acme_api-gateway
+      hostname: acme_apigateway.localdomain
+  register: acme_apigateway
 
 - name: Add VM to inventory
   add_host:
-    name: acme_api-gateway
-    hostname: "{{acme_api-gateway.server.public_v4}}"
-    ansible_host: "{{acme_api-gateway.server.public_v4}}"
+    name: acme_apigateway
+    hostname: "{{acme_apigateway.server.public_v4}}"
+    ansible_host: "{{acme_apigateway.server.public_v4}}"
 
