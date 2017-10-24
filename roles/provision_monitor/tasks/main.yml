@@ -1,0 +1,5 @@
+---
+- name: Testing host variables
+  debug:
+    msg:
+      - monitor_homedir

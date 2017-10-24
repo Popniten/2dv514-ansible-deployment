@@ -1,0 +1,6 @@
+---
+- name: Provision monitor
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - provision_monitor
