@@ -29,11 +29,11 @@
   roles:
     - deploy_service_b
 
-- name: Deploy database_b
+- name: Deploy database_a
   hosts: localhost
   gather_facts: false
   roles:
-    - deploy_database_b
+    - deploy_database_a
 
 - name: Deploy database_b
   hosts: localhost

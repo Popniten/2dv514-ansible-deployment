@@ -2,15 +2,21 @@
 127.0.0.1
 
 [acme_monitor]
+192.168.30.55
 
 [acme_webserver]
+192.168.30.62
 
 [acme_apigateway]
+192.168.30.54
 
 [acme_service_a]
+192.168.30.64
 
 [acme_service_b]
+192.168.30.57
 
 [acme_database_a]
 
 [acme_database_b]
+192.168.30.58
