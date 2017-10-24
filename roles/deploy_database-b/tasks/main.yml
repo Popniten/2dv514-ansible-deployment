@@ -1,0 +1,26 @@
+---
+- name: Deploy database-g
+  os_server:
+    state: present
+    name: acme_database-g
+    image: Ubuntu server 16.04
+    key_name: "{{ keyname }}"
+    wait: yes
+    flavor: "{{ default_flavor }}"
+    auto_floating_ip: no
+    network: "{{ companyname }}_LAN"
+    security_groups:
+      - ssh
+    meta:
+      hostname: acme_database-g.localdomain
+  register: acme_database-g
+
+- name: Add VM to inventory
+  add_host:
+    name: acme_database-g
+    hostname: "{{acme_database-g.server.public_v4}}"
+    ansible_host: "{{acme_database-g.server.public_v4}}"
+
+- name: Wait for SSH to be ready
+  pause:
+    seconds: 60

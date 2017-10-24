@@ -28,3 +28,15 @@
   gather_facts: false
   roles:
     - deploy_service-b
+
+- name: Deploy database-b
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_database-b
+
+- name: Deploy database-b
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - deploy_database-b

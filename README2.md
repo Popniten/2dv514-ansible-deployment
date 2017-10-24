@@ -5,4 +5,6 @@
 5. `scp` openrc-file and key to controlmachine
    `scp <filename> ubuntu@<floating_ip>:/home/ubuntu`
 6. Run `scripts/init.sh` on controlmachine
-7.
+7. Run `ansible-playbook deploy-instances.yml` from controlmachine
+8. Add all servers to inventory manually (?)
+9. Run `ansible-playbook -i production-inventory provision-instances.yml`
