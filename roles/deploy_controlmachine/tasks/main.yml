@@ -23,4 +23,4 @@
 
 - name: Wait for SSH to be ready
   pause:
-  seconds: 60
+    seconds: 60
