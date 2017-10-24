@@ -20,7 +20,3 @@
     name: acme_database-g
     hostname: "{{acme_database-g.server.public_v4}}"
     ansible_host: "{{acme_database-g.server.public_v4}}"
-
-- name: Wait for SSH to be ready
-  pause:
-    seconds: 60

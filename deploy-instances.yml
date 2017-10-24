@@ -40,3 +40,7 @@
   gather_facts: false
   roles:
     - deploy_database-b
+
+- name: Wait for SSH to be ready
+  pause:
+    seconds: 60
