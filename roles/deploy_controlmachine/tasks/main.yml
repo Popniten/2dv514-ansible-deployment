@@ -20,3 +20,7 @@
     name: acme_controller
     hostname: "{{acme_controller.server.public_v4}}"
     ansible_host: "{{acme_controller.server.public_v4}}"
+
+- name: Wait for SSH to be ready
+    pause:
+    seconds: 60
