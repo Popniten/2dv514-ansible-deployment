@@ -6,6 +6,7 @@
         key_name: "{{ item.key }}"
         image: "{{ item.image }}"
         flavor: "{{ item.flavor }}"
+        network: Acme_LAN
         security_groups:
           - ssh
           - swarm
