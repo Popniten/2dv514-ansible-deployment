@@ -1,11 +1,11 @@
 version: "3"
 services:
     beers:
-        image: fredriko83/beerapi
+        image: "fredriko83/beerapi"
         ports:
             - "8000:80"
         depends_on:
-            - beers_db
+            - db
     beers_db:
         image: "microsoft/mssql-server-linux:2017-latest"
         environment:
