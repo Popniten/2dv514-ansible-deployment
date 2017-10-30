@@ -8,7 +8,7 @@ docker_apt_repo: "deb https://apt.dockerproject.org/repo {{ ansible_distribution
 docker_yum_repo: "https://yum.dockerproject.org/repo/{{ docker_repo }}/centos/7"
 docker_yum_gpgkey: "https://yum.dockerproject.org/gpg"
 
-docker_swarm_addr: 192.168.20.61
+docker_swarm_addr: 192.168.20.53
 docker_swarm_port: 2377
 
 # Name of the Docker group
