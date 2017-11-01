@@ -49,15 +49,18 @@
       shell: docker swarm join-token -q worker
       register: swarm_worker_token
 
+# join the worker hosts not yet initialized to the swarm cluster
 - hosts: worker
   become: true
+  vars:
+    token: "{{ hostvars[groups['manager'][0]]['swarm_worker_token']['stdout'] }}"
   tasks:
-    - name: Join the pending Swarm worker nodes.
-      shell: docker swarm join
-        --listen-addr {{ hostvars[groups['manager_ip'][0] }}:2377
-        --advertise-addr {{ hostvars[groups['manager_ip'][0] }}
-        --token "{{ swarm_worker_token.stdout }}"
-        {{ hostvars[groups['manager_ip'][0] }}
+    - name: join worker nodes to cluster
+      shell: >
+        docker swarm join
+        --advertise-addr={{ groups['manager_ip'][0] | default('eth0') }}:2377
+        --token={{ token }}
+        {{ groups['manager_ip'][0] }}:2377
 
 - hosts: manager[0]
   become: true
