@@ -53,12 +53,12 @@
 - hosts: worker
   become: true
   vars:
-    token: "{{ hostvars[groups['manager'][0]]['swarm_worker_token']['stdout'] }}"
+    token: "{{groups['manager'][0]['swarm_worker_token']['stdout'] }}"
   tasks:
     - name: join worker nodes to cluster
       shell: >
         docker swarm join
-        --advertise-addr={{ groups['manager_ip'][0] | default('eth0') }}:2377
+        --advertise-addr={{groups['manager_ip'][0]}}:2377
         --token={{ token }}
         {{ groups['manager_ip'][0] }}:2377
 
