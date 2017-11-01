@@ -49,18 +49,15 @@
       shell: docker swarm join-token -q worker
       register: swarm_worker_token
 
-- name: Join the pending Swarm worker nodes.
-  shell: docker swarm join
+- hosts: worker
+  become: true
+  tasks:
+    - name: Join the pending Swarm worker nodes.
+      shell: docker swarm join
         --listen-addr {{ hostvars[groups['manager_ip'][0] }}:2377
         --advertise-addr {{ hostvars[groups['manager_ip'][0] }}
         --token "{{ swarm_worker_token.stdout }}"
         {{ hostvars[groups['manager_ip'][0] }}
-  changed_when: False
-  when: "docker_info.stdout.find('Swarm: active') == -1
-    and docker_info.stdout.find('Swarm: pending') == -1
-    and 'docker_swarm_worker' in group_names"
-  tags:
-    - skip_ansible_lint # Suppressing the linter
 
 - hosts: manager[0]
   become: true
