@@ -1,4 +1,4 @@
-swarm-01 ansible_ssh_host=192.168.20.54
+swarm-01 ansible_ssh_host=192.168.20.66
 swarm-02 ansible_ssh_host=192.168.20.62
 swarm-03 ansible_ssh_host=192.168.20.53
 swarm-04 ansible_ssh_host=192.168.20.55
