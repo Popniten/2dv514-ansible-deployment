@@ -1,0 +1,21 @@
+---
+    - name: launch instances
+      os_server:
+        name: "{{ prefix }}-{{ item.name }}"
+        state: present
+        key_name: "{{ item.key }}"
+        image: "{{ item.image }}"
+        flavor: "{{ item.flavor }}"
+        network: Acme_LAN
+        security_groups:
+          - ssh
+      with_items: "{{ servers }}"
+      register: "sw_test"
+
+
+    - name: add hosts to inventory
+      add_host:
+        name: "{{ item['item'].name }}"
+        groups: "{{ item['item']['meta']['group'] }}"
+        ansible_host: "{{ item.openstack.accessIPv4 }}"
+      with_items: "{{ sw_test.results }}"
