@@ -5,7 +5,7 @@ services:
         ports:
             - "8000:80"
         depends_on:
-            - db
+            - beers_db
     beers_db:
         image: "microsoft/mssql-server-linux:2017-latest"
         environment:
