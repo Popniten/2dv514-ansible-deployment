@@ -52,14 +52,12 @@
 # join the worker hosts not yet initialized to the swarm cluster
 - hosts: worker
   become: true
-  vars:
-    token: "{{groups['manager'][0]['swarm_worker_token']['stdout'] }}"
   tasks:
     - name: join worker nodes to cluster
       shell: >
         docker swarm join
         --advertise-addr={{groups['manager_ip'][0]}}:2377
-        --token={{ token }}
+        --token={{ swarm_worker_token.stdout }}
         {{ groups['manager_ip'][0] }}:2377
 
 - hosts: manager[0]
