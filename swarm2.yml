@@ -3,7 +3,7 @@
 # into two groups:
 #   - swarm_manager_operational (swarm is running and active)
 #   - swarm_manager_bootstrap (host needs to be joined to the cluster)
-- hosts: manager
+- hosts: manager[0]
   become: true
   tasks:
     - name: determine swarm status
@@ -33,8 +33,6 @@
       shell: >
         docker swarm init
         --advertise-addr={{ groups['manager_ip'][0] }}:2377
-      when: "'manager' not in groups"
-      register: bootstrap_first_node
 
 # retrieve the swarm tokens and populate a list of ips listening on
 # the swarm port 2377      
