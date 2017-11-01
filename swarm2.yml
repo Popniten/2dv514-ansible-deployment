@@ -32,7 +32,7 @@
     - name: initialize swarm cluster
       shell: >
         docker swarm init
-        --advertise-addr={{ groups['manager'][0] }}:2377
+        --advertise-addr={{ groups['manager_ip'][0] }}:2377
       when: "'manager' not in groups"
       register: bootstrap_first_node
 
@@ -41,7 +41,7 @@
 - hosts: manager[0]
   become: true
   vars:
-    iface: "{{ groups['manager'][0] | default('eth0') }}"
+    iface: "{{ groups['manager_ip'][0] | default('eth0') }}"
   tasks:
     - name: retrieve swarm manager token
       shell: docker swarm join-token -q manager
@@ -55,14 +55,14 @@
 - hosts: worker
   become: true
   vars:
-    token: "{{ hostvars[groups['manager'][0]]['worker']['stdout'] }}"
+    token: "{{ hostvars[groups['manager_ip'][0]]['worker']['stdout'] }}"
   tasks:
     - name: join worker nodes to cluster
       shell: >
         docker swarm join
         --advertise-addr={{ groups['manager'][0] | default('eth0') }}:2377
         --token={{ token }}
-        {{ groups['manager'][0] }}:2377
+        {{ groups['manager_ip'][0] }}:2377
 
 - hosts: manager[0]
   become: true
