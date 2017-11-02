@@ -5,7 +5,7 @@
     - create_swarm_inst
 
 - name: Provision nodes
-  hosts: os_hosts
+  hosts: sw_test
   user: ubuntu
   become: true
   gather_facts: false
