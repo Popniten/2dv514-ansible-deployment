@@ -32,7 +32,6 @@
     - name: initialize swarm cluster
       shell: >
         docker swarm init
-        --advertise-addr={{ groups['manager_ip'][0] }}:2377
 
 # retrieve the swarm tokens and populate a list of ips listening on
 # the swarm port 2377      
@@ -40,7 +39,7 @@
   become: true
   tasks:
     - name: Get the worker join-token.
-      shell: docker swarm join-token -q worker
+      shell: docker swarm join-token -q manager
       changed_when: False
       register: swarm_worker_token
       delegate_to: "{{ groups['manager'][0] }}"
@@ -50,22 +49,10 @@
     - name: join worker nodes to cluster
       shell: >
         docker swarm join
-        --advertise-addr={{groups['manager_ip'][0]}}:2377
         --token={{ swarm_worker_token.stdout }}
         {{ groups['manager_ip'][0] }}:2377
       changed_when: False
       when: "'worker' in group_names"   
-
-# join the worker hosts not yet initialized to the swarm cluster
-- hosts: worker
-  become: true
-  tasks:
-    - name: join worker nodes to cluster
-      shell: >
-        docker swarm join
-        --advertise-addr={{groups['manager_ip'][0]}}:2377
-        --token={{ swarm_worker_token.stdout }}
-        {{ groups['manager_ip'][0] }}:2377
 
 - hosts: manager[0]
   become: true
