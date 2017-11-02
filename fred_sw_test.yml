@@ -9,46 +9,41 @@
   user: ubuntu
   become: true
   gather_facts: false
-  #vars:
-  #  source_key: /home/popniten/LNU/config-2dv514/Grupp02-examination-ht17/vault/2dv514-temp
-  #  dest_key: /home/ubuntu/.ssh/2dv514-temp
   tasks:
     - name: install python 2
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 
     - name: Download docker sh
       get_url:
-        url: curl -fsSL get.docker.com -o get-docker.sh
-        dest: /home/ubuntu
+        url: https://get.docker.com/
+        dest: /home/ubuntu/get-docker.sh
 
     - name: Change the working directory to somedir/ before executing the command.
-      shell: get-docker.sh >> somelog.txt
+      shell: .  get-docker.sh
       args:
         chdir: /home/ubuntu/
 
+- name: Initiate manager
+  hosts: sw_test_manager
+  user: ubuntu
+  become: true
+  gather_facts: false
+  tasks:
+  - name: init swarm
+    shell: docker swarm init
 
-    
+  - name: get token 
+    shell: docker swarm join-token -q manager
+    register: token  
+        
+- name: Add nodes to swarm
+  hosts: sw_test
+  user: ubuntu
+  become: true
+  gather_facts: false
+  tasks:
+    - name: add nodes
+      shell: docker swarm join --token {{token}} 192.168.20.67:2377
   
-    # - name: ensure repository key is installed
-    #   apt_key:
-    #     id: "58118E89F3A912897C070ADBF76221572C52609D"
-    #     keyserver: "hkp://p80.pool.sks-keyservers.net:80"
-    #     state: present
 
-    # - name: ensure docker registry is available
-    #   # For Ubuntu 14.04 LTS, use this repository:
-    #   # apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-trusty main' state=present
-    #   # For Ubuntu 16.04 LTS, use this repo instead:
-    #   apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present
-
-    # - name: ensure docker and dependencies are installed
-    #   apt: name=docker-engine update_cache=yes
-
-    # - service: name=docker state=restarted
     
-    # - name: Copy docker-compose
-    #   copy:
-    #     src: api/
-    #     dest: '/home/ubuntu/api'
-    #     owner: ubuntu
-    #     group: ubuntu    
