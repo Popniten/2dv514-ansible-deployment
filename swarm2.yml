@@ -64,4 +64,4 @@
   become: true
   tasks:
     - name: Deploy service
-      shell: docker stack deploy --compose-file /home/ubuntu/recipe.yml recipe            
+      shell: docker stack deploy --compose-file /home/ubuntu/api/database/recipe.yml recipe   

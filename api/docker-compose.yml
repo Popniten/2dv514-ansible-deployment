@@ -6,17 +6,13 @@ networks:
   recipes:
   backend:
   beers_network:
+  frontend:
 
 services: 
   api:
-    # build: . 
     image: wallstedt/api-aggregator:latest
     volumes:
-      - .:/usr/src/app
       - /usr/src/app/node_modules
-    ports:
-      - "3000:3000"
-    command: npm run dev
     depends_on:
       - servicedb
     links:
@@ -28,8 +24,6 @@ services:
   
   beers:
     image: fredriko83/beerapi:latest
-    ports: 
-      - "8000:80"
     depends_on:
       - beers_db
     networks: 
@@ -47,8 +41,6 @@ services:
 
   servicedb:
     image: mongo
-    ports: 
-      - "27017:27017"
     networks:
       - backend
     volumes:
@@ -56,9 +48,6 @@ services:
   
   web:
     image: andrasballa/recipeapi_web
-    # build: .
-    ports:
-      - "8080:8080"
     depends_on:
       - db
     networks: 
@@ -67,7 +56,7 @@ services:
     image: mysql:5.7
     volumes:
       - dbdata:/var/lib/mysql
-      - /home/ubuntu/api/recipe/database:/tmp/database
+      - ./recipe/database:/tmp/database
     command: mysqld --init-file="/tmp/database/schema.sql"
     restart: always
     environment:
@@ -75,7 +64,12 @@ services:
       - MYSQL_DATABASE=2DV514
       - MYSQL_USER=root
       - MYSQL_PASSWORD=secret
-    ports:
-      - "3306:3306"
     networks:
       - recipes
+  rp:
+    image: wallstedt/minimal-proxy
+    ports: 
+      - "8001:8001"
+    restart: always
+    networks: 
+      - frontend
