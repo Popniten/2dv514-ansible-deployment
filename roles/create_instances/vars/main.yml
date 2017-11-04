@@ -18,4 +18,10 @@ servers:
     flavor: cpu2-ram4096-disk10
     key: 2dv514-g2-key
     meta:
-      group: worker            
+      group: worker 
+  - name: worker3
+    image: Ubuntu server 16.04
+    flavor: cpu2-ram4096-disk10
+    key: 2dv514-g2-key
+    meta:
+      group: worker                
