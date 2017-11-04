@@ -58,10 +58,4 @@
   become: true
   tasks:
     - name: Deploy service
-      shell: docker stack deploy --compose-file /home/ubuntu/docker-compose.yml beer 
-
-- hosts: manager[0]
-  become: true
-  tasks:
-    - name: Deploy service
-      shell: docker stack deploy --compose-file /home/ubuntu/api/database/recipe.yml recipe   
+      shell: docker stack deploy --compose-file /home/ubuntu/docker-compose.yml eb   
