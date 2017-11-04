@@ -22,3 +22,10 @@
       shell: .  get-docker.sh
       args:
         chdir: /home/ubuntu
+        
+    - name: Copy docker-compose
+      copy:
+        src: api/
+        dest: '/home/ubuntu/api'
+        owner: ubuntu
+        group: ubuntu    
