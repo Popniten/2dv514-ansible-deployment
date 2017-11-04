@@ -12,27 +12,3 @@
           - swarm
       with_items: "{{ servers }}"
       register: "os_hosts"
-
-
-    - name: add hosts to inventory
-      add_host:
-        name: "{{ item['item'].name }}"
-        groups: "{{ item['item']['meta']['group'] }}"
-        ansible_host: "{{ item.openstack.accessIPv4 }}"
-      with_items: "{{ os_hosts.results }}"
-
-    - name: install python 2
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-      with_items: "{{ os_hosts.results }}"
-
-    - name: Download docker sh
-      get_url:
-        url: https://get.docker.com/
-        dest: /home/ubuntu/get-docker.sh
-      with_items: "{{ os_hosts.results }}"
-
-    - name: Install docker
-      shell: .  get-docker.sh
-      args:
-        chdir: /home/ubuntu
-      with_items: "{{ os_hosts.results }}"    
