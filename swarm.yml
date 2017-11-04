@@ -1,8 +1,5 @@
 ---
-# determine the status of each manager node and break them
-# into two groups:
-#   - swarm_manager_operational (swarm is running and active)
-#   - swarm_manager_bootstrap (host needs to be joined to the cluster)
+# determine the status of the manager node
 - hosts: manager[0]
   become: true
   tasks:
@@ -11,10 +8,7 @@
         docker info | egrep '^Swarm: ' | cut -d ' ' -f2
       register: swarm_status
 
-# determine the status of each worker node and break them
-# into two groups:
-#   - swarm_worker_operational (host is joined to the swarm cluster)
-#   - swarm_worker_bootstrap (host needs to be joined to the cluster)
+# determine the status of each worker node
 - hosts: worker
   become: true
   tasks:
@@ -23,9 +17,7 @@
         docker info | egrep '^Swarm: ' | cut -d ' ' -f2
       register: swarm_status
 
-# when the swarm_manager_operational group is empty, meaning there
-# are no hosts running swarm, we need to initialize one of the hosts
-# then add it to the swarm_manager_operational group
+# Initialize the swarm cluster on the manager node
 - hosts: manager[0]
   become: true
   tasks:
@@ -54,6 +46,7 @@
       changed_when: False
       when: "'worker' in group_names"   
 
+# Deploy the Web services to the swarm cluster
 - hosts: manager[0]
   become: true
   tasks:
