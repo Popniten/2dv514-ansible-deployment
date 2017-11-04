@@ -9,6 +9,8 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    networks:
+      recipes
   db:
     image: mysql:5.7
     volumes:
@@ -21,4 +23,8 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=secret
     ports:
-      - "3306:3306"  
+      - "3306:3306"
+    networks:
+      recipes
+networks:
+  recipes:
