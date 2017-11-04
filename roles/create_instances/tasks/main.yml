@@ -38,4 +38,4 @@
           shell: .  get-docker.sh
           args:
             chdir: /home/ubuntu
-        with_items: "{{ os_hosts.results }}"    
+          with_items: "{{ os_hosts.results }}"    
