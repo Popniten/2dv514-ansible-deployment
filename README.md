@@ -39,6 +39,12 @@ source openstack.rc
 
 ...
 
+Deploy the monitor by:
+
+```bash
+ansible-playbook deploy_monitor.yml --ask-vault-pass
+```
+
 Start off by creating a number of servers to hosts your swarm the role create_instances is in charge of this action
 
 ```bash
