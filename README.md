@@ -46,18 +46,20 @@ ansible-playbook deploy_monitor.yml --ask-vault-pass
 ```
 
 Start off by creating a number of servers to hosts your swarm the role create_instances is in charge of this action
+=======
+Start off by creating a number of servers to hosts your swarm the role `create_instances` is in charge of this action
 
 ```bash
 ansible-playbook site.yml
 ```
 
-When the servers are created populate your inventory file in this case the file called *hosts* with the private IPs of these new servers. After this is done we re run the *site.yml* playbook to provision the nodes. 
+When the servers are created populate your inventory file in this case the file called `hosts` with the private IPs of these new servers. After this is done we re run the `site.yml` playbook to provision the nodes. 
 
 ```bash
 ansible-playbook site.yml -i hosts
 ```
 
-Once provisioning is done we setup the swarm cluster using the *swarm.yml* playbook. 
+Once provisioning is done we setup the swarm cluster using the `swarm.yml` playbook. 
 
 ```bash
 ansible-playbook swarm.yml -i hosts
