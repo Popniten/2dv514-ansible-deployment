@@ -35,6 +35,7 @@
     git: 
       repo=https://github.com/{{account}}/{{repo}}.git
       dest={{homeDir}}/{{appDir}}
+      force=true
     register: git_finished
 
   - name: Running NPM install
