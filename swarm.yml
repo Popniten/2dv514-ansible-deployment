@@ -42,7 +42,7 @@
       shell: >
         docker swarm join
         --token={{ swarm_worker_token.stdout }}
-        {{ groups['manager_ip'][0] }}:2377
+        {{ groups['manager'][0] }}:2377
       changed_when: False
       when: "'worker' in group_names"   
 
